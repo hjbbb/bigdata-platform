@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.edu.xidian.bigdataplatform.mybatis.mapper.UserMapper">
+    <resultMap id="userResultMap" type="cn.edu.xidian.bigdataplatform.mybatis.entity.user.User">
+        <id column="id" property="uuid"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="pk" property="pk"/>
+        <result column="pk_create_time" property="pkCreateTime"/>
+    </resultMap>
+    <update id="updateUser">
+        update platform.user_info
+        set username = #{username}, password = #{password}, pk = #{pk}, pk_create_time = #{pkCreateTime}
+        where id = #{uuid}
+    </update>
+
+    <select id="findUserByUsername" resultMap="userResultMap">
+        select *
+        from platform.user_info
+        where username = #{username};
+    </select>
+
+</mapper>

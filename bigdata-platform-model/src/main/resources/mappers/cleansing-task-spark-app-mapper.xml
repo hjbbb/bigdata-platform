@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.edu.xidian.bigdataplatform.mybatis.mapper.CleansingTaskSparkAppMapper">
+    <resultMap id="cleansingTaskSparkAppMap" type="cn.edu.xidian.bigdataplatform.mybatis.entity.CleansingTaskSparkApp">
+        <id column="id" property="id"/>
+        <result column="task_id" property="taskId"/>
+        <result column="spark_app_id" property="sparkAppId"/>
+    </resultMap>
+
+    <select id="findAllCleansingTaskAndSparkApp" resultMap="cleansingTaskSparkAppMap">
+        select *
+        from platform.cleansing_task_spark_app;
+    </select>
+
+    <insert id="insertCleansingTaskAndSparkApp" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.CleansingTaskSparkApp"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into platform.cleansing_task_spark_app(id, task_id, spark_app_id)
+        values (#{id}, #{taskId}, #{sparkAppId});
+    </insert>
+
+    <delete id="deleteCleansingTaskAndSparkAppById"
+            parameterType="Integer">
+        delete
+        from platform.cleansing_task_spark_app
+        where task_id = #{taskId};
+    </delete>
+
+</mapper>

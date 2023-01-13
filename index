@@ -1,0 +1,32 @@
+env {
+	spark.executor.memory = "1g"
+	spark.app.name = "SeaTunnel"
+	spark.executor.cores = "1"
+	spark.executor.instances = "2"
+}
+source {
+	jdbc {
+		driver = "com.mysql.cj.jdbc.Driver"
+		password = "zlx1754wanc"
+		table = "freight_source"
+		url = "jdbc:mysql://localhost:3306/wutong"
+		result_table_name = "freight"
+		user = "root"
+	}
+}
+transform {
+	Sql {
+		source_table_name = "freight"
+		sql = "select * from freight where id > 3"
+		result_table_name = "freight_transformed"
+	}
+}
+sink {
+	file {
+	    source_table_name = "freight_transformed"
+	    path = hdfs://test_mysql_${now}
+	    path_time_format = yyyy-MM-dd
+	    save_mode = append
+	    serializer = csv
+	}
+}

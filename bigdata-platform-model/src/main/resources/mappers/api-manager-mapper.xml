@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--指定MApper接口-->
+<mapper namespace="cn.edu.xidian.bigdataplatform.mybatis.mapper.ApiManagerMapper">
+    <resultMap id="userApiResultMap" type="cn.edu.xidian.bigdataplatform.mybatis.entity.apimanage.UserApiItem">
+        <id column="id" property="id"/>
+        <result column="api_name" property="apiName"/>
+        <result column="api_url" property="apiUrl"/>
+        <result column="uuid" property="uuid"/>
+        <result column="indices" property="indices"/>
+    </resultMap>
+
+    <insert id="insertNewApiItem" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.apimanage.UserApiItem"
+            useGeneratedKeys="true"
+            keyProperty="id"
+            keyColumn="id">
+        insert into platform.user_apis(id, api_name, api_url, uuid, indices)
+        values (#{id}, #{apiName}, #{apiUrl}, #{uuid},  #{indices});
+    </insert>
+    <update id="updateApiItem" parameterType="UserApiItem">
+        update platform.user_apis
+        set api_name=#{apiName}, api_url=#{apiUrl}, uuid=#{uuid}, indices=#{indices}
+        where id=#{id}
+    </update>
+
+    <select id="getApiByUrl" resultMap="userApiResultMap">
+        select *
+        from platform.user_apis
+        where api_url = #{apiUrl};
+    </select>
+
+    <select id="getApiById" resultMap="userApiResultMap">
+        select *
+        from platform.user_apis
+        where id = #{id};
+    </select>
+
+    <select id="getUserApis" resultMap="userApiResultMap">
+        select *
+        from platform.user_apis
+        where uuid = #{uuid};
+    </select>
+
+    <delete id="deleteItemById">
+        delete from platform.user_apis where id = #{id};
+    </delete>
+</mapper>

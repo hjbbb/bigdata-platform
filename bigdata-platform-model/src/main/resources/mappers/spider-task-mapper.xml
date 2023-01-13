@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.edu.xidian.bigdataplatform.mybatis.mapper.SpiderTaskMapper">
+    <resultMap id="spiderTaskMap" type="cn.edu.xidian.bigdataplatform.mybatis.entity.SpiderTask">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="website" property="website"/>
+        <result column="modified_time" property="modifiedTime"/>
+        <result column="description" property="description"/>
+        <result column="sink" property="sink"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <select id="findSpiderTaskById" resultMap="spiderTaskMap">
+        select *
+        from platform.spider_task
+        where id = #{id};
+    </select>
+
+    <select id="findAllSpiderTask" resultMap="spiderTaskMap">
+        select *
+        from platform.spider_task;
+    </select>
+
+    <insert id="insertSpiderTask" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.SpiderTask"
+        useGeneratedKeys="true" keyProperty="id">
+        insert into platform.spider_task(id, name, website, modified_time, description, sink, status)
+        values (#{id}, #{name}, #{website}, #{modifiedTime}, #{description}, #{sink}, #{status})
+    </insert>
+
+    <update id="updateSpiderTaskStatus" keyProperty="id" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.SpiderTask">
+        update platform.spider_task
+        set status=#{status}
+        where id = #{id};
+    </update>
+
+</mapper>

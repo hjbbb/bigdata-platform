@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.edu.xidian.bigdataplatform.mybatis.mapper.MySQLTaskMapper">
+    <resultMap id="mysqlTaskMap" type="cn.edu.xidian.bigdataplatform.mybatis.entity.MySQLTask">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="create_time" property="createTime"/>
+        <result column="description" property="description"/>
+        <result column="mode" property="mode"/>
+        <result column="status" property="status"/>
+        <result column="host" property="host"/>
+        <result column="port" property="port"/>
+        <result column="schema_name" property="schemaName"/>
+        <result column="target_table" property="targetTable"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+    </resultMap>
+
+    <select id="findMySQLTaskById" resultMap="mysqlTaskMap">
+        select *
+        from platform.mysql_task
+        where id = #{id};
+    </select>
+
+    <select id="findAllMySQLTask" resultMap="mysqlTaskMap">
+        select *
+        from platform.mysql_task;
+    </select>
+
+    <insert id="insertMySQLTask" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.MySQLTask"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into platform.mysql_task(id, name, create_time, description, mode, status, host, port, schema_name, target_table, username, password)
+        values (#{id}, #{name}, #{createTime}, #{description}, #{mode}, #{status}, #{host}, #{port}, #{schemaName}, #{targetTable}, #{username}, #{password})
+    </insert>
+
+    <update id="updateMySQLTaskStatus" keyProperty="id" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.MySQLTask">
+        update platform.mysql_task
+        set status=#{status}
+        where id = #{id};
+    </update>
+
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.edu.xidian.bigdataplatform.mybatis.mapper.DataSourceMapper">
+    <resultMap id="dataSourceResultMap" type="cn.edu.xidian.bigdataplatform.mybatis.entity.usersource.DataSource">
+        <id column="id" property="uuid"/>
+        <result column="description" property="description"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_modified_time" property="lastModifiedTime"/>
+        <result column="source_name" property="sourceName"/>
+        <result column="source_type" property="sourceType"
+                typeHandler="cn.edu.xidian.bigdataplatform.mybatis.typehandler.CodeEnumTypeHandler"
+                javaType="cn.edu.xidian.bigdataplatform.mybatis.entity.usersource.SourceType"/>
+        <result column="connect_info" property="connectInfo"
+                typeHandler="cn.edu.xidian.bigdataplatform.mybatis.typehandler.JsonTypeHandler"/>
+    </resultMap>
+
+    <insert id="insertNewDataSource" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.usersource.DataSource"
+            keyProperty="uuid"
+            keyColumn="id">
+        insert into platform.data_source(id, description, create_time, last_modified_time, source_name, source_type,
+                                         connect_info)
+        values (#{uuid}, #{description}, #{createTime}, #{lastModifiedTime}, #{sourceName}, #{sourceType},
+                #{connectInfo});
+    </insert>
+
+    <update id="updateExistedDataSourceById"
+            parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.usersource.DataSource">
+        update platform.data_source
+        set description        = #{description},
+            last_modified_time = #{lastModifiedTime},
+            source_name        = #{sourceName},
+            source_type        = #{sourceType},
+            connect_info       = #{connectInfo}
+        where id = #{uuid}
+    </update>
+
+    <delete id="deleteExistedSourceById"
+            parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.usersource.DataSource">
+        delete
+        from platform.data_source
+        where id = #{uuid};
+    </delete>
+
+    <!-- Read -->
+    <select id="queryAllDataSources" resultMap="dataSourceResultMap">
+        select *
+        from platform.data_source
+    </select>
+
+    <select id="findDataSourceById"
+            resultMap="dataSourceResultMap">
+        select *
+        from platform.data_source
+        where id = #{uuid};
+    </select>
+
+</mapper>

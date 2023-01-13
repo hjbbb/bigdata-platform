@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.edu.xidian.bigdataplatform.mybatis.mapper.CleansingTaskCanalInstanceMapper">
+    <resultMap id="cleansingTaskCanalInstanceMap" type="cn.edu.xidian.bigdataplatform.mybatis.entity.CleansingTaskCanalInstance">
+        <id column="id" property="id"/>
+        <result column="task_id" property="taskId"/>
+        <result column="canal_instance_id" property="canalInstanceId"/>
+    </resultMap>
+
+    <select id="findAllCleansingTaskAndCanalInstance" resultMap="cleansingTaskCanalInstanceMap">
+        select *
+        from platform.cleansing_task_canal_instance;
+    </select>
+
+    <select id="findCleansingTaskAndCanalInstance"
+            resultMap="cleansingTaskCanalInstanceMap">
+        select *
+        from platform.cleansing_task_canal_instance
+        where task_id = #{cleansingTaskId};
+    </select>
+
+    <insert id="insertCleansingTaskAndCanalInstance" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.CleansingTaskCanalInstance"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into platform.cleansing_task_canal_instance(id, task_id, canal_instance_id)
+        values (#{id}, #{taskId}, #{canalInstanceId});
+    </insert>
+
+    <update id="updateCleansingTaskAndCanalInstance" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.CleansingTaskCanalInstance">
+        update platform.cleansing_task_canal_instance
+        set task_id = #{taskId},
+            canal_instance_id = #{canalInstanceId}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCleansingTaskAndCanalInstanceById"
+            parameterType="Integer">
+        delete
+        from platform.cleansing_task_canal_instance
+        where task_id = #{taskId};
+    </delete>
+
+</mapper>

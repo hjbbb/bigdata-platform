@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.edu.xidian.bigdataplatform.mybatis.mapper.SpiderSourceMapper">
+    <resultMap id="spiderResultSourceMap" type="cn.edu.xidian.bigdataplatform.mybatis.entity.usersource.SpiderSource">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="website" property="website"/>
+        <result column="description" property="description"/>
+        <result column="create_time" property="createTime"/>
+        <result column="sink" property="sink"/>
+        <result column="status" property="status"/>
+        <result column="minute" property="minute"/>
+        <result column="hour" property="hour"/>
+        <result column="frequency" property="frequency"/>
+        <result column="value" property="value"/>
+    </resultMap>
+
+    <insert id="insertNewSpiderSource" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.usersource.SpiderSource"
+            keyProperty="id"
+            keyColumn="id">
+        insert into platform.spider_source(id, name, website, description, create_time, sink, status, minute, hour, frequency, value)
+        values (#{id}, #{name}, #{website}, #{description}, #{createTime}, #{sink}, #{status}, #{minute}, #{hour}, #{frequency}, #{value});
+    </insert>
+
+    <update id="updateExistedSpiderSourceById"
+            parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.usersource.SpiderSource">
+        update platform.spider_source
+        set name               = #{name},
+            website            = #{website},
+            description        = #{description},
+            create_time        = #{createTime},
+            sink               = #{sink},
+            status             = #{status},
+            minute             = #{minute},
+            hour               = #{hour},
+            frequency          = #{frequency},
+            value              = #{value}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteExistedSourceById"
+            parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.usersource.SpiderSource">
+        delete
+        from platform.spider_source
+        where id = #{id};
+    </delete>
+
+    <!-- Read -->
+    <select id="queryAllSpiderSources" resultMap="spiderResultSourceMap">
+        select *
+        from platform.spider_source
+    </select>
+
+    <select id="findSpiderSourceById"
+            resultMap="spiderResultSourceMap">
+        select *
+        from platform.spider_source
+        where id = #{id};
+    </select>
+
+    <select id="findSpiderSourceByName"
+            resultType="java.lang.String">
+        select id
+        from platform.spider_source
+        where name = #{name};
+    </select>
+
+    <select id="findAllSpiderSource" resultMap="spiderResultSourceMap">
+        select *
+        from platform.spider_source;
+    </select>
+
+    <update id="updateSpiderSourceStatus" keyProperty="id" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.usersource.SpiderSource">
+        update platform.spider_source
+        set status=#{status}
+        where id = #{id};
+    </update>
+
+</mapper>

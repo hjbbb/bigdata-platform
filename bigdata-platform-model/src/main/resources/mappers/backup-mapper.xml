@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--指定MApper接口-->
+<mapper namespace="cn.edu.xidian.bigdataplatform.mybatis.mapper.BackupMapper">
+    <resultMap id="backupResultMap" type="cn.edu.xidian.bigdataplatform.mybatis.entity.mysqlbackup.BackupItem">
+        <id column="id" property="id"/>
+        <result column="uuid" property="uuid"/>
+        <result column="date" property="date"/>
+        <result column="name" property="name"/>
+        <result column="db_name" property="dbName"/>
+        <result column="description" property="description"/>
+        <result column="type" property="type"/>
+        <result column="host" property="host"/>
+        <result column="port" property="port"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="periodUnit" property="periodUnit"/>
+        <result column="periodFreq" property="periodFreq"/>
+        <result column="storage_place" property="storagePlace"/>
+        <result column="status" property="status"/>
+        <result column="message" property="message"/>
+    </resultMap>
+
+    <insert id="insertNewBackupItem" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.mysqlbackup.BackupItem"
+            useGeneratedKeys="true"
+            keyProperty="id"
+            keyColumn="id">
+        insert into platform.mysql_backup_list(id, uuid, date, name, db_name, description, type, host, port, username, password, periodUnit, periodFreq, storage_place, status, message)
+        values (#{id}, #{uuid}, #{date}, #{name}, #{dbName}, #{description}, #{type}, #{host}, #{port}, #{username}, #{password}, #{periodUnit}, #{periodFreq}, #{storagePlace}, #{status}, #{message});
+    </insert>
+
+    <update id="updateBackupItem" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.mysqlbackup.BackupItem">
+        update platform.mysql_backup_list
+        set uuid = #{uuid}, date = #{date}, name = #{name}, db_name = #{dbName}, description = #{description}, type = #{type}, host = #{host}, port = #{port},
+            username = #{username}, password = #{password}, periodUnit = #{periodUnit}, periodFreq = #{periodFreq}, storage_place = #{storagePlace}, status = #{status}, message = #{message}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteItemById">
+        delete from platform.mysql_backup_list where id = #{id};
+    </delete>
+
+
+    <!-- Read -->
+    <select id="getAllBackupItems" resultMap="backupResultMap">
+        select *
+        from platform.mysql_backup_list
+        where uuid = #{uuid};
+    </select>
+
+    <select id="getItemDetail" resultMap="backupResultMap">
+        select *
+        from platform.mysql_backup_list
+        where id = #{id};
+    </select>
+
+<!--    <select id="showDatabases" resultType="string">-->
+<!--        show databases;-->
+<!--    </select>-->
+</mapper>

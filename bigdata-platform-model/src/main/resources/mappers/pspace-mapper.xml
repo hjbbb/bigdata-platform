@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.edu.xidian.bigdataplatform.mybatis.mapper.PSpaceMapper">
+    <resultMap id="pspaceSourceResultMap" type="cn.edu.xidian.bigdataplatform.mybatis.entity.usersource.PSpace">
+        <id column="id" property="id"/>
+        <result column="url" property="url"/>
+        <result column="user" property="user"/>
+        <result column="password" property="password"/>
+        <result column="start" property="start"/>
+        <result column="end" property="end"/>
+        <result column="sql_ip" property="sqlIP"/>
+        <result column="sql_port" property="sqlPort"/>
+        <result column="sql_user" property="sqlUser"/>
+        <result column="sql_password" property="sqlPassword"/>
+        <result column="data_type" property="dataType"/>
+    </resultMap>
+
+    <insert id="insertPSpaceSource"
+            parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.usersource.PSpace" keyProperty="id"
+            keyColumn="id">
+        insert into platform.pspace_source(url, user, password, start, end, sql_ip, sql_port, sql_user, sql_password, data_type)
+        values (#{url}, #{user}, #{password}, #{start}, #{end}, #{sqlIP}, #{sqlPort}, #{sqlUser}, #{sqlPassword}, #{dataType});
+    </insert>
+
+    <update id="updatePSpace">
+        update platform.pspace_source
+        set url = #{url},
+            user = #{user},
+            password = #{password}
+    </update>
+
+    <!-- Read -->
+    <select id="queryAllPSpaceSources" resultMap="pspaceSourceResultMap">
+        select *
+        from platform.pspace_source
+    </select>
+
+    <select id="findPSpaceByDataType"
+            resultMap="pspaceSourceResultMap">
+        select *
+        from platform.pspace_source
+        where data_type=#{dataType}
+    </select>
+
+</mapper>

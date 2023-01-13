@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.edu.xidian.bigdataplatform.mybatis.mapper.CleansingTaskMapper">
+    <resultMap id="cleansingTaskMap" type="cn.edu.xidian.bigdataplatform.mybatis.entity.CleansingTask">
+        <id column="id" property="id"/>
+        <result column="app_id" property="appId"/>
+        <result column="input_data_source" property="inputDataSource"/>
+        <result column="input_data_source_table" property="inputDataSourceTable"/>
+        <result column="input_type" property="inputType"/>
+        <result column="output_table" property="outputTable"/>
+        <result column="start_time" property="startTime"/>
+        <result column="complete_time" property="completeTime"/>
+        <result column="status" property="status"/>
+        <result column="publisher" property="publisher"/>
+        <result column="config_location" property="configLocation"/>
+        <result column="log_location" property="logLocation"/>
+        <result column="task_name" property="taskName"/>
+    </resultMap>
+
+    <select id="findCleansingTaskByAppId" resultMap="cleansingTaskMap">
+        select *
+        from platform.cleansing_task
+        where app_id = #{appId};
+    </select>
+
+    <select id="findCleansingTaskByIncrementalId" resultMap="cleansingTaskMap">
+        select *
+        from platform.cleansing_task
+        where id = #{id};
+    </select>
+
+    <select id="findAllCleansingTask" resultMap="cleansingTaskMap">
+        select *
+        from platform.cleansing_task;
+    </select>
+
+    <insert id="insertCleansingTask" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.CleansingTask"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into platform.cleansing_task(id, app_id, input_data_source, input_data_source_table, input_type, output_table, start_time, complete_time, status, publisher, config_location, log_location, task_name)
+        values (#{id}, #{appId}, #{inputDataSource}, #{inputDataSourceTable}, #{inputType}, #{outputTable}, #{startTime}, #{completeTime}, #{status}, #{publisher}, #{configLocation}, #{logLocation}, #{taskName})
+    </insert>
+
+    <update id="updateCleansingTaskStatusById" keyProperty="id" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.CleansingTask">
+        update platform.cleansing_task
+        set app_id = #{appId},
+            status=#{status},
+            start_time=#{startTime},
+            complete_time=#{completeTime}
+        where id = #{id};
+    </update>
+
+    <update id="updateCleansingTaskStatusByAppId" keyProperty="id" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.CleansingTask">
+        update platform.cleansing_task
+        set status=#{status},
+            start_time=#{startTime},
+            complete_time=#{completeTime}
+        where app_id = #{appId};
+    </update>
+
+    <delete id="deleteCleansingTaskById"
+            parameterType="Integer">
+        delete
+        from platform.cleansing_task
+        where id = #{taskId};
+    </delete>
+
+
+</mapper>

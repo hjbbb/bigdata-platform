@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.edu.xidian.bigdataplatform.mybatis.mapper.AccessLogMapper">
+    <resultMap id="accessLogResultMap" type="cn.edu.xidian.bigdataplatform.mybatis.entity.AccessLog">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="userid" property="userid"/>
+        <result column="operate" property="operate"/>
+        <result column="operatetime" property="operatetime"/>
+        <result column="spare" property="spare"/>
+    </resultMap>
+
+    <select id="searchAllAccessLog" resultMap="accessLogResultMap">
+        select * from accesslog order by operatetime desc
+    </select>
+
+    <select id="searchAllAccessLogByName" resultMap="accessLogResultMap"
+            parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.AccessLog">
+        select * from accesslog  where username =#{username} order by operatetime desc
+    </select>
+
+    <insert id="insertAccessLog" parameterType="cn.edu.xidian.bigdataplatform.mybatis.entity.AccessLog"
+            keyProperty="uuid"
+            keyColumn="id">
+        insert into platform.accesslog(id, username, userid, operate, operatetime, spare)
+        values (#{id}, #{username}, #{userid}, #{operate}, #{operatetime}, #{spare});
+    </insert>
+
+
+
+</mapper>
